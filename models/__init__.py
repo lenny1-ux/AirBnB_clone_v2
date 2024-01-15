@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+from models.engine.file_storage import FileStorage
 
 if getenv("HBNB_TYPE_STORAGE", "fs") == "db":
     from models.engine import db_storage
@@ -22,5 +23,5 @@ classes = {"User": User, "BaseModel": BaseModel,
            "Place": Place, "State": State,
            "City": City, "Amenity": Amenity,
            "Review": Review}
-
+storage = FileStorage()
 storage.reload()

@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This is the file storage class for AirBnB"""
 import json
+import importlib
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -61,9 +62,18 @@ class FileStorage:
         """
         try:
             with open(self.__file_path, 'r', encoding="UTF-8") as f:
-                for key, value in (json.load(f)).items():
-                    value = eval(value["__class__"])(**value)
-                    self.__objects[key] = value
+                try:
+                    data = json.load(f)
+                    for key, value in data.items():
+                        class_name = value.get("__class__")
+                        if class_name:
+                            module_name, class_name = class_name.split('.')
+                            module = importlib.import_module(module_name)
+                            obj_class = getattr(module, class_name)
+                            value = obj_class(**value)
+                            self.__objects[key] = value
+                except json.decoder.JSONDecodeError as e:
+                    pass
         except FileNotFoundError:
             pass
 
