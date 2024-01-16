@@ -8,7 +8,6 @@ from models.place import Place
 from models.review import Review
 import hashlib
 from os import getenv
-STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class User(BaseModel, Base):
