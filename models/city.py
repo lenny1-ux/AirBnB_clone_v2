@@ -7,7 +7,6 @@ from sqlalchemy import Column, Integer, String
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from models.place import Place
-STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class City(BaseModel, Base):
