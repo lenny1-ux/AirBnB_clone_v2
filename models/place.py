@@ -3,11 +3,12 @@
     Define the class Place.
 '''
 import os
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
-from sqlalchemy import Table
 from models.base_model import BaseModel, Base
-import models
+from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Float, ForeignKey,\
+    MetaData, Table, ForeignKey
+from sqlalchemy.orm import backref
+STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 place_amenity = Table('place_amenity', Base.metadata,
