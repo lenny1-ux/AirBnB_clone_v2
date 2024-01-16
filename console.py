@@ -210,7 +210,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-       obj_list = []
+        obj_list = []
         models.storage.reload()
         objects = models.storage.all()
         try:
