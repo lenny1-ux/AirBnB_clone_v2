@@ -6,7 +6,6 @@ from os import getenv
 from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
-STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 
 class Review(BaseModel, Base):
