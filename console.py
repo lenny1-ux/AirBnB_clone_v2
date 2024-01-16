@@ -210,20 +210,22 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """ Shows all objects, or all objects of a class"""
-        args = args.split(" ")
-        obj_list = []
-        objects = storage.all(args[0])
+       obj_list = []
+        models.storage.reload()
+        objects = models.storage.all()
         try:
-            if args[0] != "":
-                models.classes[args[0]]
-        except (KeyError, NameError):
+            if len(args) != 0:
+                eval(args)
+        except NameError:
             print("** class doesn't exist **")
             return
-        try:
-            for key, val in objects.items():
+        for key, val in objects.items():
+            if len(args) != 0:
+                if type(val) is eval(args):
+                    obj_list.append(val)
+            else:
                 obj_list.append(val)
-        except:
-            pass
+
         print(obj_list)
 
     def help_all(self):
