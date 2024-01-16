@@ -27,17 +27,15 @@ class FileStorage:
         Return:
             returns a dictionary of __object
         """
-        dic = {}
-        if cls:
-            dictionary = self.__objects
-            for key in dictionary:
-                partition = key.replace('.', ' ')
-                partition = shlex.split(partition)
-                if (partition[0] == cls.__name__):
-                    dic[key] = self.__objects[key]
-            return (dic)
-        else:
-            return self.__objects
+        if cls is not None:
+            if type(cls) == str:
+                cls = eval(cls)
+            cls_dict = {}
+            for k, v in self.__objects.items():
+                if type(v) == cls:
+                    cls_dict[k] = v
+            return cls_dict
+        return self.__objects
 
     def new(self, obj):
         """sets __object to given obj
@@ -61,19 +59,11 @@ class FileStorage:
         """serialize the file path to JSON file path
         """
         try:
-            with open(self.__file_path, 'r', encoding="UTF-8") as f:
-                try:
-                    data = json.load(f)
-                    for key, value in data.items():
-                        class_name = value.get("__class__")
-                        if class_name:
-                            module_name, class_name = class_name.split('.')
-                            module = importlib.import_module(module_name)
-                            obj_class = getattr(module, class_name)
-                            value = obj_class(**value)
-                            self.__objects[key] = value
-                except json.decoder.JSONDecodeError as e:
-                    pass
+            with open(self.__file_path, "r", encoding="utf-8") as f:
+                for o in json.load(f).values():
+                    name = o["__class__"]
+                    del o["__class__"]
+                    self.new(eval(name)(**o))
         except FileNotFoundError:
             pass
 
