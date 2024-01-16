@@ -7,6 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column
 from sqlalchemy import DateTime
 from sqlalchemy import String
+STORAGE_TYPE = os.environ.get('HBNB_TYPE_STORAGE')
 
 Base = declarative_base()
 
